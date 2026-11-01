@@ -24,7 +24,6 @@ if not BOT_TOKEN:
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Описание подобрано под функционал вашего HTML (релизы, статистика, альбомы)
 WELCOME_TEXT = (
     "🎛 <b>Добро пожаловать в DropStudio!</b>\n\n"
     "Это твоя личная студия артиста прямо в Telegram. Здесь ты управляешь своей музыкой:\n\n"
@@ -55,8 +54,8 @@ dp = Dispatcher()
 
 @dp.message(CommandStart())
 async def cmd_start(message: Message) -> None:
-    # Если хотите добавить картинку, положите файл welcome_studio.jpg рядом с кодом
-    photo_path = "welcome_studio.jpg" 
+    # Имя файла картинки (должен лежать в корне проекта)
+    photo_path = "studio_welcome.jpg" 
     
     if os.path.exists(photo_path):
         photo = FSInputFile(photo_path)
@@ -67,7 +66,7 @@ async def cmd_start(message: Message) -> None:
             parse_mode=ParseMode.HTML
         )
     else:
-        # Если картинки нет, отправит просто красивый текст
+        logger.warning(f"Файл {photo_path} не найден! Отправляю только текст.")
         await message.answer(
             WELCOME_TEXT,
             reply_markup=studio_keyboard(),
