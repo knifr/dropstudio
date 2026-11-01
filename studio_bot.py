@@ -16,7 +16,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Токен уже ДРУГОГО бота (DropStudio)
+# Токен бота DropStudio
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 if not BOT_TOKEN:
     raise RuntimeError("BOT_TOKEN не задан в переменных окружения")
@@ -35,8 +35,9 @@ WELCOME_TEXT = (
     "👇 Нажми кнопку ниже, чтобы открыть студию и начать творить!"
 )
 
-# Ваша ссылка на Mini App
+# Ссылки
 STUDIO_URL = "https://t.me/droptunestudio_bot?startapp=game_heart"
+CHANNEL_URL = "https://t.me/droptunecloud"
 
 def studio_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(
@@ -45,6 +46,12 @@ def studio_keyboard() -> InlineKeyboardMarkup:
                 InlineKeyboardButton(
                     text="🎛 Открыть DropStudio",
                     url=STUDIO_URL,
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="📢 Официальный канал",
+                    url=CHANNEL_URL,
                 )
             ]
         ]
@@ -77,7 +84,7 @@ async def cmd_start(message: Message) -> None:
 @dp.message(F.text == "/help")
 async def cmd_help(message: Message) -> None:
     await message.answer(
-        "Команды:\n/start — показать приветствие и кнопку входа в студию\n/help — эта справка"
+        "Команды:\n/start — показать приветствие и кнопки\n/help — эта справка"
     )
 
 # --- Фейковый веб-сервер для Render (чтобы не было ошибки "No open ports") ---
